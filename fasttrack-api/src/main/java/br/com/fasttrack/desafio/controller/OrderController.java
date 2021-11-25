@@ -61,7 +61,6 @@ public class OrderController {
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody OrderRequest orderRequest) throws Exception {
-		service.findById(id).orElseThrow(() -> new OrderNotExistsException("Order not exists"));
 		service.update(id, orderRequest);
 		return ResponseEntity.accepted().build();
 	}

@@ -14,14 +14,14 @@ import br.com.fasttrack.desafio.entity.Order;
 import br.com.fasttrack.desafio.entity.StatusOrder;
 import br.com.fasttrack.desafio.exception.OrderNotExistsException;
 import br.com.fasttrack.desafio.kafka.OrderProducer;
-import br.com.fasttrack.desafio.repository.Orders;
+import br.com.fasttrack.desafio.repository.OrdersRepository;
 import br.com.fasttrack.desafio.repository.filter.OrderFilter;
 
 @Service
 public class OrderService {
 
 	@Autowired
-	private Orders repository;
+	private OrdersRepository repository;
 	
 	@Autowired OrderProducer producer;
 	
