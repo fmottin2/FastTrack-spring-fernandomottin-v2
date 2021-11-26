@@ -46,7 +46,7 @@ public class OrderController {
 	}
 
 	@PostMapping
-	public ResponseEntity<OrderDTO> insert(@RequestBody @Valid OrderDTO orderRequest) throws Exception {
+	public ResponseEntity<OrderDTO> insert(@RequestBody @Valid OrderRequest orderRequest) throws Exception {
 		OrderDTO orderDTO = service.insert(orderRequest);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(orderDTO.getId())
 				.toUri();
@@ -60,9 +60,9 @@ public class OrderController {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody OrderRequest orderRequest) throws Exception {
-		service.update(id, orderRequest);
-		return ResponseEntity.accepted().build();
+	public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody  @Valid OrderRequest orderRequest) throws Exception {
+		OrderDTO orderDTO = service.update(id, orderRequest);
+		return ResponseEntity.accepted().body(orderDTO);
 	}
 
 	@DeleteMapping(value = "/{id}")

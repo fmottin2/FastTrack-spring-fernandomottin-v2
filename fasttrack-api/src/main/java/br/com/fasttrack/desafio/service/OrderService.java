@@ -35,8 +35,8 @@ public class OrderService {
 		return list;
 	}
 
-	public OrderDTO insert(OrderDTO orderDTO) {
-		Order orderSave = modelMapper.map(orderDTO, Order.class);
+	public OrderDTO insert(OrderRequest orderRequest) {
+		Order orderSave = modelMapper.map(orderRequest, Order.class);
 		orderSave.setStatus(StatusOrder.NOT_PROCESSED);
 		Order orderResponse = repository.save(orderSave);
 		OrderDTO orderDTOResponse =  modelMapper.map(orderResponse, OrderDTO.class);
@@ -44,12 +44,13 @@ public class OrderService {
 		return orderDTOResponse;
 	}
 	
-	public void update(Integer id,OrderRequest orderRequest) throws OrderNotExistsException {
+	public OrderDTO update(Integer id,OrderRequest orderRequest) throws OrderNotExistsException {
 		Order orderFind = findById(id).orElseThrow(() -> new OrderNotExistsException("Order not exists"));
 		Order order = modelMapper.map(orderRequest, Order.class);
 		order.setId(id);
 		order.setStatus(orderFind.getStatus());
-		repository.save(order);
+		Order orderResponse = repository.save(order);
+		return  modelMapper.map(orderResponse, OrderDTO.class);
 	}
 
 	public Optional<Order> findById(Integer id) {

@@ -25,19 +25,23 @@ public class ErrorHandler {
 	@Autowired
 	private MessageSource messageSource;
 	
+	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public List<ErrorRequestDTO> handle(MethodArgumentNotValidException exception) {
-		List<ErrorRequestDTO> dto = new ArrayList<>();
+	public ExceptionResponse handle(MethodArgumentNotValidException exception) {
+		StringBuilder sb = new StringBuilder();
 		
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 		fieldErrors.forEach(e -> {
 			String message = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-			ErrorRequestDTO erro = new ErrorRequestDTO(e.getField(), message);
-			dto.add(erro);
+			sb.append(e.getField());
+			sb.append(" ");
+			sb.append(message);
+			sb.append("; ");
+			
 		});
 		
-		return dto;
+		return new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), sb.toString());
 	}
 	
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)

@@ -2,6 +2,7 @@ package br.com.fasttrack.desafio.controller.request;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.hibernate.annotations.NotFound;
 
@@ -12,13 +13,13 @@ import lombok.Setter;
 @Setter
 public class OrderRequest {
 
-	@NotNull @NotEmpty @NotFound
+	@NotNull(message = "can not be null") @NotEmpty(message = "can not be empty") 
 	private String name;
 	
-	@NotNull @NotEmpty @NotFound
+	@NotNull(message = "can not be null") @NotEmpty(message = "can not be empty") @NotFound
 	private String description;
 	
-	@NotNull
+	@NotNull(message = "can not be null") @Positive(message = "must be positive")
 	private Double total;
 	
 }
